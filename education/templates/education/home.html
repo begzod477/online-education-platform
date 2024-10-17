@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Mavjud Kurslar</h2>
+  <ul>
+    {% for course in courses %}
+      <li>
+        <h3>{{ course.title }}</h3>
+        <p>{{ course.description }}</p>
+      </li>
+    {% empty %}
+      <li>Hech qanday kurs mavjud emas.</li>
+    {% endfor %}
+  </ul>
+
+  {% if user.is_authenticated %}
+    <form action="{% url 'logout' %}" method="post">
+      {% csrf_token %}
+      <button type="submit">Chiqish</button>
+    </form>
+  {% endif %}
+{% endblock %}

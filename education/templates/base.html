@@ -1,0 +1,51 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Ta'lim Platformasi</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Online Ta'lim Platformasi</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Bosh sahifa</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'add_course' %}">Kurs Qo'shish</a></li>
+                    <li>
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit">Chiqish</button>
+                        </form>
+                    </li>
+                    <li>Xush kelibsiz, {{ user.username }}</li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Kirish</a></li>
+                    <li><a href="{% url 'register' %}">Ro'yxatdan o'tish</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Online Ta'lim Platformasi. Barcha huquqlar himoyalangan.</p>
+    </footer>
+</body>
+</html>
